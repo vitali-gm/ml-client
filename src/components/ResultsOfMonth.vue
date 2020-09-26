@@ -88,10 +88,10 @@
       </v-col>
     </v-row>
     <div>
-      <th-item-user-res/>
+      <th-item-user-res />
       <item-user
         v-for="item in users"
-        :key="item._id"
+        :key="item.id"
         :item="item"
         :date="date"
         @update="updateData"
@@ -145,6 +145,10 @@ export default {
         this.litersForPeriod.firstPeriod * this.price.firstPeriod +
         this.litersForPeriod.lastPeriod * this.price.lastPeriod
       ).toFixed(2);
+    },
+
+    setting() {
+      return this.$store.getters["setting/setting"](this.date);
     }
   },
 
@@ -159,19 +163,19 @@ export default {
       await this.fetchUser();
     },
     async onChange(e) {
-      let price = {};
+      let price = this.price;
 
       switch (e.target.name) {
         case "mastit":
           price = {
             firstPeriod: this.price.firstPeriod,
             lastPeriod: this.price.lastPeriod,
-            mastit: e.target.value
+            mastit: parseFloat(e.target.value)
           };
           break;
         case "firstPeriod":
           price = {
-            firstPeriod: e.target.value,
+            firstPeriod: parseFloat(e.target.value),
             lastPeriod: this.price.lastPeriod,
             mastit: this.price.mastit
           };
@@ -179,20 +183,25 @@ export default {
         case "lastPeriod":
           price = {
             firstPeriod: this.price.firstPeriod,
-            lastPeriod: e.target.value,
+            lastPeriod: parseFloat(e.target.value),
             mastit: this.price.mastit
           };
           break;
       }
 
-      const dispatchPath = this.isSetPriceForMonth
-        ? "setting/update"
-        : "setting/create";
+      let setting = {};
+      let dispatchPath = "setting/create";
+
+      if (this.setting !== undefined) {
+        setting = this.setting;
+        dispatchPath = "setting/update";
+      }
+
+      setting.price = price;
+      setting.date = this.date;
+
       await this.$store.dispatch(dispatchPath, {
-        data: {
-          price,
-          date: this.date
-        }
+        setting
       });
     }
   },

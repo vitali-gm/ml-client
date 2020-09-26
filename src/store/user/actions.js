@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:3000/api/user";
+const url = "http://localhost:3000/user";
 
 export default {
   async listUsers({ commit }) {
@@ -16,18 +16,10 @@ export default {
     });
   },
 
-  async update({ commit }, { id, data }) {
-    await axios.put(`${url}/${id}`, data).then(response => {
+  async update({ commit }, { id, user }) {
+    await axios.put(`${url}/${id}`, user).then(response => {
       if (response.status === 200) {
-        if (data.records) {
-          commit("updateRecords", { id, data });
-        } else if (data.greasiness) {
-          commit("updateGreasiness", { id, data });
-        } else if (data.countCows) {
-          commit("updateCountCows", { id, data });
-        }else {
-          commit("updateUser", { id, data });
-        }
+        commit("updateUser", { id, user });
       }
     });
   },
@@ -41,14 +33,10 @@ export default {
   },
 
   async sort({ commit }, { users }) {
-    await axios
-      .post(`${url}/sort`, {
-        users
-      })
-      .then(response => {
-        if (response.status === 200) {
-          commit("setUsers", { users });
-        }
-      });
+    await axios.post(`${url}/update-all`, users).then(response => {
+      if (response) {
+        commit("setUsers", { users: response.data });
+      }
+    });
   }
 };

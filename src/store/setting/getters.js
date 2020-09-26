@@ -1,4 +1,10 @@
 export default {
+  setting(state) {
+    return date => {
+      return state.settings.find(item => item.date === date);
+    };
+  },
+
   priceForMonth(state) {
     return date => {
       const index = state.settings.findIndex(item => item.date === date);

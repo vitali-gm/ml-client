@@ -8,10 +8,9 @@ export default {
   },
 
   updateSetting(state, { data }) {
-    const index = state.settings.findIndex(item => item.date === data.date);
+    const index = state.settings.findIndex(item => item.id === data.id);
     if (index !== -1) {
-      state.settings[index].price = data.price;
-      state.settings[index].date = data.date;
+      state.settings[index] = data;
     }
   }
 };

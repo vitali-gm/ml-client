@@ -18,10 +18,14 @@
         ></v-text-field>
       </v-col>
       <v-col cols="12" sm="2" md="2" offset="2">
-        <v-btn small color="success" @click="onUpdate" tabindex="-1">Редагувати</v-btn>
+        <v-btn small color="success" @click="onUpdate" tabindex="-1"
+          >Редагувати</v-btn
+        >
       </v-col>
       <v-col cols="12" sm="2" md="2">
-        <v-btn small color="error" @click="onDelete" tabindex="-1">Видалити</v-btn>
+        <v-btn small color="error" @click="onDelete" tabindex="-1"
+          >Видалити</v-btn
+        >
       </v-col>
     </v-row>
   </div>
@@ -72,31 +76,29 @@ export default {
 
         const indexRecord = records.findIndex(item => item.date === this.date);
         if (indexRecord !== -1) {
-          records[indexRecord] = {
-            liters: liters,
-            date: this.date
-          };
+          records[indexRecord].liters = liters;
         } else {
           records.push({
             liters: liters,
             date: this.date
           });
         }
+        this.item.records = records;
 
         await this.$store.dispatch("user/update", {
-          id: this.item._id,
-          data: { records }
+          id: this.item.id,
+          user: this.item
         });
       }
     },
 
     onUpdate() {
-      this.$router.push(`/update-user/${this.item._id}`);
+      this.$router.push(`/update-user/${this.item.id}`);
     },
 
     async onDelete() {
       await this.$store.dispatch("user/delete", {
-        id: this.item._id
+        id: this.item.id
       });
     }
   },

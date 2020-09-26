@@ -176,10 +176,7 @@ export default {
           return this.date === item.date;
         });
         if (indexRecord !== -1) {
-          greasiness[indexRecord] = {
-            value: value,
-            date: this.date
-          };
+          greasiness[indexRecord].value = value;
         } else {
           greasiness.push({
             value: value,
@@ -187,9 +184,11 @@ export default {
           });
         }
 
+        this.item.greasiness = greasiness;
+
         await this.$store.dispatch("user/update", {
-          id: this.item._id,
-          data: { greasiness }
+          id: this.item.id,
+          user: this.item
         });
       }
       this.$emit("update");
@@ -205,10 +204,7 @@ export default {
         );
 
         if (indexRecord !== -1) {
-          countCows[indexRecord] = {
-            value,
-            date: this.date
-          };
+          countCows[indexRecord].value = value;
         } else {
           countCows.push({
             value,
@@ -216,9 +212,11 @@ export default {
           });
         }
 
+        this.item.countCows = countCows;
+
         await this.$store.dispatch("user/update", {
-          id: this.item._id,
-          data: { countCows }
+          id: this.item.id,
+          user: this.item
         });
       }
       this.$emit("update");

@@ -7,36 +7,15 @@ export default {
     state.users.push(user);
   },
 
-  updateUser(state, { id, data }) {
-    const index = state.users.findIndex(item => item._id === id);
+  updateUser(state, { id, user }) {
+    const index = state.users.findIndex(item => item.id === id);
     if (index !== -1) {
-      state.users[index].name = data.name;
-      state.users[index].lastName = data.lastName;
-    }
-  },
-
-  updateRecords(state, { id, data }) {
-    const index = state.users.findIndex(item => item._id === id);
-    if (index !== -1) {
-      state.users[index].records = data.records;
-    }
-  },
-  updateGreasiness(state, { id, data }) {
-    const index = state.users.findIndex(item => item._id === id);
-    if (index !== -1) {
-      state.users[index].greasiness = data.greasiness;
-    }
-  },
-
-  updateCountCows(state, { id, data }) {
-    const index = state.users.findIndex(item => item._id === id);
-    if (index !== -1) {
-      state.users[index].countCows = data.countCows;
+      state.users[index] = user;
     }
   },
 
   deleteUser(state, { id }) {
-    const index = state.users.findIndex(item => item._id === id);
+    const index = state.users.findIndex(item => item.id === id);
     if (index !== -1) {
       state.users.splice(index, 1);
     }

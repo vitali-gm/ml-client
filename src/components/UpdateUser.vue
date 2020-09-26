@@ -50,7 +50,7 @@ export default {
 
   mounted() {
     const index = this.users.findIndex(
-      item => item._id.toString() === this.$route.params.id
+      item => item.id.toString() === this.$route.params.id
     );
 
     if (index !== -1) {

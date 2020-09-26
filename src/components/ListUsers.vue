@@ -47,7 +47,7 @@
       <draggable v-model="users">
         <item-user
           v-for="(item, index) in users"
-          :key="item._id"
+          :key="item.id"
           :index="index"
           :item="item"
           :date="date"
@@ -81,10 +81,13 @@ export default {
         return this.$store.state.user.users;
       },
       async set(value) {
-        await this.$store.dispatch("user/sort", {
-          users: value
+        const users = value.map((item, index) => {
+          item.order = index + 1;
+          return item;
         });
-        // this.$store.commit("user/setUsers", { users: value });
+        await this.$store.dispatch("user/sort", {
+          users
+        });
       }
     },
 

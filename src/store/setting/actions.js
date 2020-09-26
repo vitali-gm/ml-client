@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:3000/api/setting";
+const url = "http://localhost:3000/setting";
 
 export default {
   async get({ commit }) {
@@ -9,16 +9,16 @@ export default {
     });
   },
 
-  async create({ commit }, { data }) {
-    await axios.post(url, data).then(response => {
+  async create({ commit }, { setting }) {
+    await axios.post(url, setting).then(response => {
       commit("addSetting", { data: response.data });
     });
   },
 
-  async update({ commit }, { data }) {
-    await axios.put(`${url}/${data.date}`, data).then(response => {
+  async update({ commit }, { setting }) {
+    await axios.put(`${url}/${setting.id}`, setting).then(response => {
       if (response.status === 200) {
-        commit("updateSetting", { data });
+        commit("updateSetting", { setting: response.data });
       }
     });
   }
