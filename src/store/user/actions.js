@@ -16,10 +16,10 @@ export default {
     });
   },
 
-  async update({ commit }, { id, user }) {
-    await axios.put(`${url}/${id}`, user).then(response => {
+  async update({ commit }, { id, data }) {
+    await axios.put(`${url}/${id}`, data).then(response => {
       if (response.status === 200) {
-        commit("updateUser", { id, user });
+        commit("updateUser", { id, user: data });
       }
     });
   },

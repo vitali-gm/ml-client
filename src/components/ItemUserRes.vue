@@ -113,28 +113,27 @@ export default {
     },
 
     itemNewLiters() {
-      const res = (this.itemTotalLiters * this.itemGreasiness) / 3.4;
-      return res.toFixed(0);
+      return (
+        this.itemObjNewLiters.firstPeriod + this.itemObjNewLiters.lastPeriod
+      ).toFixed(0);
     },
 
     itemObjNewLiters() {
       return {
-        firstPeriod: (
-          (this.itemLiters.firstPeriod * this.itemGreasiness) /
-          3.4
-        ).toFixed(0),
-        lastPeriod: (
-          (this.itemLiters.lastPeriod * this.itemGreasiness) /
-          3.4
-        ).toFixed(0)
+        firstPeriod: (this.itemLiters.firstPeriod * this.itemGreasiness) / 3.4,
+        lastPeriod: (this.itemLiters.lastPeriod * this.itemGreasiness) / 3.4
       };
     },
 
     itemResult() {
-      return (
-        this.itemObjNewLiters.firstPeriod * this.price.firstPeriod +
-        this.itemObjNewLiters.lastPeriod * this.price.lastPeriod
-      ).toFixed(2);
+      if (this.price.firstPeriod === this.price.lastPeriod) {
+        return this.itemNewLiters * this.price.firstPeriod;
+      } else {
+        return (
+          this.itemObjNewLiters.firstPeriod * this.price.firstPeriod +
+          this.itemObjNewLiters.lastPeriod * this.price.lastPeriod
+        );
+      }
     },
 
     itemCountCows() {
@@ -188,7 +187,7 @@ export default {
 
         await this.$store.dispatch("user/update", {
           id: this.item.id,
-          user: this.item
+          data: this.item
         });
       }
       this.$emit("update");
@@ -216,7 +215,7 @@ export default {
 
         await this.$store.dispatch("user/update", {
           id: this.item.id,
-          user: this.item
+          data: this.item
         });
       }
       this.$emit("update");

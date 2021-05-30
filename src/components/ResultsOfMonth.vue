@@ -76,40 +76,19 @@
         />
       </v-col>
     </v-row>
-    <v-row class="result">
-      <v-col cols="12" sm="4" md="4">
-        <strong>Загальна кількість літрів: {{ allLiters }} л.</strong>
-      </v-col>
-      <v-col cols="12" sm="4" md="4">
-        <strong>Вирахувана кількість літрів: {{ allNewLiters }} л.</strong>
-      </v-col>
-      <v-col cols="12" sm="4" md="4">
-        <strong>Загальна сума: {{ total }} грн.</strong>
-      </v-col>
-    </v-row>
-    <div>
-      <th-item-user-res />
-      <item-user
-        v-for="item in users"
-        :key="item.id"
-        :item="item"
-        :date="date"
-        @update="updateData"
-      ></item-user>
-    </div>
+    <results-of-month-component :user-type="1" :date="date" :price="price" />
+    <results-of-month-component :user-type="2" :date="date" :price="price" />
   </div>
 </template>
 
 <script>
-import ItemUser from "./ItemUserRes";
-import ThItemUserRes from "./ThItemUserRes";
+import ResultsOfMonthComponent from "./ResultsOfMonthComponent";
 
 export default {
   name: "ResultsOfMonth",
 
   components: {
-    ThItemUserRes,
-    ItemUser
+    ResultsOfMonthComponent
   },
 
   data: () => ({
@@ -212,10 +191,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.result {
-  background-color: #0002ff;
-  color: white;
-}
-</style>

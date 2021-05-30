@@ -42,32 +42,17 @@
         </v-flex>
       </v-col>
     </v-row>
-    <div class="result">Літрів за вибраний день: {{ litersForDate }} л.</div>
-    <div>
-      <draggable v-model="users">
-        <item-user
-          v-for="(item, index) in users"
-          :key="item.id"
-          :index="index"
-          :item="item"
-          :date="date"
-        ></item-user>
-      </draggable>
-    </div>
+    <list-user-component :user-type="1" :date="date" />
+    <hr style="margin: 10px" />
+    <list-user-component :user-type="2" :date="date" />
   </div>
 </template>
 
 <script>
-import ItemUser from "./ItemUser";
-import draggable from "vuedraggable";
+import ListUserComponent from "./ListUserComponent";
 
 export default {
   name: "ListUsers",
-
-  components: {
-    ItemUser,
-    draggable
-  },
 
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -75,34 +60,13 @@ export default {
     menu1: false
   }),
 
-  computed: {
-    users: {
-      get() {
-        return this.$store.state.user.users;
-      },
-      async set(value) {
-        const users = value.map((item, index) => {
-          item.order = index + 1;
-          return item;
-        });
-        await this.$store.dispatch("user/sort", {
-          users
-        });
-      }
-    },
-
-    litersForDate() {
-      return this.$store.getters["user/litersForDate"](this.date);
-    }
+  components: {
+    ListUserComponent
   },
 
   methods: {
     async fetchUser() {
       await this.$store.dispatch("user/listUsers");
-    },
-
-    sortEnd(e) {
-      console.log(e);
     }
   },
 
@@ -111,12 +75,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.result {
-  background-color: #0002ff;
-  color: white;
-  padding: 10px;
-  border-radius: 7px;
-}
-</style>

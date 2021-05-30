@@ -1,7 +1,9 @@
 export default {
   allLitersForMonth(state) {
-    return date => {
-      return state.users.reduce((accumulator, currentValue) => {
+    return (date, userType = 1) => {
+      const users =
+        userType === 1 ? state.usersDecorated : state.usersUnDecorated;
+      return users.reduce((accumulator, currentValue) => {
         if (currentValue.records) {
           accumulator += currentValue.records.reduce((acc, curr) => {
             const rDate = new Date(curr.date).toISOString().substr(0, 7);
@@ -17,9 +19,11 @@ export default {
   },
 
   allNewLitersForMonth(state) {
-    return date => {
+    return (date, userType = 1) => {
+      const users =
+        userType === 1 ? state.usersDecorated : state.usersUnDecorated;
       let res = 0;
-      state.users.forEach(item => {
+      users.forEach(item => {
         let liters = 0;
         let greasiness = 0;
         if (item.records) {
@@ -47,13 +51,16 @@ export default {
   },
 
   allNewLitersForMonthPeriod(state) {
-    return date => {
+    return (date, userType = 1) => {
+      const users =
+        userType === 1 ? state.usersDecorated : state.usersUnDecorated;
+
       let res = {
         firstPeriod: 0,
         lastPeriod: 0
       };
 
-      state.users.forEach(item => {
+      users.forEach(item => {
         let liters = {};
         let greasiness = 0;
         if (item.records) {
@@ -97,10 +104,12 @@ export default {
   },
 
   litersForDate(state) {
-    return date => {
+    return (date, userType = 1) => {
       let liters = 0;
+      const users =
+        userType === 1 ? state.usersDecorated : state.usersUnDecorated;
 
-      state.users.forEach(item => {
+      users.forEach(item => {
         if (item.records) {
           liters += item.records.reduce((acc, curr) => {
             // const rDate = new Date(curr.date).toISOString().substr(0, 7);

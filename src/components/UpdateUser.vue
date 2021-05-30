@@ -15,6 +15,12 @@
       <v-col cols="12" sm="6" md="6" offset="3">
         <div class="border-form">
           <v-text-field label="ПІБ" v-model="name"></v-text-field>
+          <v-select
+            v-model="type"
+            :items="types"
+            item-text="name"
+            item-value="value"
+          />
           <v-btn color="primary" @click="onSave()">Редагувати</v-btn>
         </div>
       </v-col>
@@ -27,12 +33,19 @@ export default {
   name: "UpdateUser",
 
   data: () => ({
-    name: ""
+    name: "",
+    type: 1
   }),
 
   computed: {
     users() {
       return this.$store.state.user.users;
+    },
+    types() {
+      return [
+        { name: "Оформлений", value: 1 },
+        { name: "Не оформлений", value: 2 }
+      ];
     }
   },
 
@@ -41,7 +54,8 @@ export default {
       await this.$store.dispatch("user/update", {
         id: this.$route.params.id,
         data: {
-          name: this.name
+          name: this.name,
+          type: this.type
         }
       });
       window.location.href = "/";
@@ -56,6 +70,7 @@ export default {
     if (index !== -1) {
       const user = this.users[index];
       this.name = user.name;
+      this.type = user.type;
     }
   }
 };

@@ -87,7 +87,7 @@ export default {
 
         await this.$store.dispatch("user/update", {
           id: this.item.id,
-          user: this.item
+          data: this.item
         });
       }
     },

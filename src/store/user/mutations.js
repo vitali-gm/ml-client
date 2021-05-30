@@ -1,6 +1,8 @@
 export default {
   setUsers(state, { users }) {
     state.users = users;
+    state.usersDecorated = users.filter(item => item.type === 1);
+    state.usersUnDecorated = users.filter(item => item.type === 2);
   },
 
   addUser(state, { user }) {
