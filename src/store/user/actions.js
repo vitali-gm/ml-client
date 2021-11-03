@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_URL } from "../../../config/api";
 
-const url = "http://localhost:3000/user";
+const url = API_URL + "user";
 
 export default {
   async listUsers({ commit }) {

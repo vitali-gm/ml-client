@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_URL } from "../../../config/api";
 
-const url = "http://localhost:3000/setting";
+const url = API_URL + "setting";
 
 export default {
   async get({ commit }) {
